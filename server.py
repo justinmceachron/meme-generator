@@ -8,7 +8,7 @@ class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.path = '/index.html'
         return super().do_GET()
 
-PORT = 8000
+PORT = 8001
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
