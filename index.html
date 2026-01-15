@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meme Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,149 +11,93 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-dark: #0a0a0f;
-            --bg-panel: #12121a;
-            --bg-card: #1a1a25;
-            --accent: #ff3d5a;
-            --accent-glow: rgba(255, 61, 90, 0.4);
-            --accent-secondary: #ff6b35;
-            --text-primary: #f0f0f5;
-            --text-secondary: #8888a0;
-            --border: #2a2a3a;
-        }
-
         body {
-            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #121212;
             min-height: 100vh;
-            color: var(--text-primary);
+            color: #e0e0e0;
             overflow: hidden;
         }
 
-        /* Main Layout */
         .app-container {
-            display: grid;
-            grid-template-rows: auto 1fr;
-            grid-template-columns: 240px 1fr;
-            height: 100vh;
-            gap: 0;
-        }
-
-        /* Header / Upload Area */
-        .header {
-            grid-column: 1 / -1;
-            background: var(--bg-panel);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 24px;
             display: flex;
-            align-items: center;
-            gap: 24px;
+            flex-direction: column;
+            height: 100vh;
         }
 
-        .logo {
-            font-family: 'Archivo Black', sans-serif;
+        /* Header with Upload */
+        .header {
+            background: #1e1e1e;
+            padding: 10px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        h1 {
+            text-align: center;
             font-size: 24px;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ff6b35 0%, #ff4500 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            white-space: nowrap;
+            font-weight: 700;
         }
 
         .upload-area {
-            flex: 1;
-            max-width: 400px;
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 12px 20px;
+            border: 2px dashed #ff6b35;
+            border-radius: 8px;
+            padding: 10px 15px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            background: var(--bg-card);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            background: #2a2a2a;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .upload-area:hover {
-            border-color: var(--accent);
-            background: rgba(255, 61, 90, 0.05);
+            background: #333333;
+            border-color: #ff4500;
         }
 
         .upload-area input[type="file"] {
             display: none;
         }
 
-        .upload-icon {
-            font-size: 20px;
-        }
-
         .upload-label {
             font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .upload-area:hover .upload-label {
-            color: var(--accent);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            margin-left: auto;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
+            color: #ff6b35;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            border: none;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-secondary) 100%);
-            color: white;
-            box-shadow: 0 4px 15px var(--accent-glow);
+        /* Main Content Area */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--accent-glow);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Sidebar */
+        /* Sidebar for Templates */
         .sidebar {
-            background: var(--bg-panel);
-            border-right: 1px solid var(--border);
+            width: 280px;
+            background: #1e1e1e;
             overflow-y: auto;
-            padding: 16px;
+            padding: 20px;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
         }
 
         .sidebar-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            padding: 0 4px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ff6b35;
         }
 
-        .templates-grid {
-            display: flex;
-            flex-direction: column;
+        .templates {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 12px;
         }
 
@@ -163,24 +106,22 @@
             cursor: pointer;
             border-radius: 8px;
             overflow: hidden;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-            background: var(--bg-card);
+            border: 3px solid transparent;
+            transition: all 0.3s;
         }
 
         .template-item:hover {
-            border-color: var(--accent);
-            transform: scale(1.02);
+            border-color: #ff6b35;
         }
 
         .template-item.selected {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.3);
         }
 
         .template-item img {
             width: 100%;
-            height: 120px;
+            height: 180px;
             object-fit: cover;
             display: block;
         }
@@ -190,234 +131,270 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 20px 8px 8px;
-            font-size: 11px;
+            padding: 8px;
+            font-size: 13px;
+            text-align: center;
             font-weight: 500;
         }
 
-        /* Main Canvas Area */
-        .main-area {
-            background: var(--bg-dark);
+        /* Canvas Area */
+        .canvas-area {
+            flex: 1;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
+            flex-direction: column;
+            background: #2a2a2a;
             position: relative;
-            overflow: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 80%, rgba(255, 61, 90, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.08) 0%, transparent 50%);
+            overflow: auto;
         }
 
         .canvas-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
             position: relative;
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            max-width: 100%;
-            max-height: 100%;
         }
 
-        .meme-container {
+        .canvas-container {
             position: relative;
             display: inline-block;
             cursor: crosshair;
-            border-radius: 8px;
-            overflow: hidden;
         }
 
         #memeCanvas {
             display: block;
             max-width: 100%;
-            max-height: calc(100vh - 200px);
+            max-height: 100%;
+            border: 2px solid #444;
             border-radius: 8px;
-        }
-
-        .placeholder-message {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            padding: 60px 40px;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        .placeholder-icon {
-            font-size: 64px;
-            opacity: 0.5;
-        }
-
-        .placeholder-text {
-            font-size: 16px;
-        }
-
-        .placeholder-hint {
-            font-size: 13px;
-            opacity: 0.7;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         /* Textbox Overlay */
-        .text-box {
+        .textbox {
             position: absolute;
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid var(--accent);
-            border-radius: 6px;
+            border: 2px dashed #ff6b35;
+            background: rgba(255, 107, 53, 0.1);
+            cursor: move;
             min-width: 100px;
             min-height: 40px;
-            cursor: move;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
+            padding: 5px;
         }
 
-        .text-box:hover {
-            box-shadow: 0 0 0 2px var(--accent-glow);
+        .textbox.selected {
+            border-color: #ff4500;
+            box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
         }
 
-        .text-box.selected {
-            border-color: #00ff88;
-            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.3);
-        }
-
-        .text-box-input {
+        .textbox-input {
             width: 100%;
             height: 100%;
             background: transparent;
             border: none;
-            color: white;
-            font-family: 'Impact', 'Arial Black', sans-serif;
-            font-size: 24px;
-            text-align: center;
             outline: none;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+            color: white;
+            font-family: Impact, Arial Black, sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(0, 0, 0, 0.8);
             resize: none;
             overflow: hidden;
         }
 
-        .text-box-delete {
+        .textbox-close {
             position: absolute;
             top: -12px;
             right: -12px;
             width: 24px;
             height: 24px;
-            background: var(--accent);
-            border: none;
+            background: #ff4500;
+            border: 2px solid white;
             border-radius: 50%;
             color: white;
             font-size: 14px;
+            font-weight: bold;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.2s;
             z-index: 10;
         }
 
-        .text-box:hover .text-box-delete,
-        .text-box.selected .text-box-delete {
-            opacity: 1;
+        .textbox-close:hover {
+            background: #ff6b35;
         }
 
-        .text-box-delete:hover {
-            background: #ff1a3d;
-            transform: scale(1.1);
-        }
-
-        /* Resize Handles */
         .resize-handle {
             position: absolute;
             width: 12px;
             height: 12px;
-            background: var(--accent);
+            background: #ff6b35;
             border: 2px solid white;
-            border-radius: 2px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .text-box:hover .resize-handle,
-        .text-box.selected .resize-handle {
-            opacity: 1;
+            border-radius: 50%;
         }
 
         .resize-handle.nw { top: -6px; left: -6px; cursor: nw-resize; }
         .resize-handle.ne { top: -6px; right: -6px; cursor: ne-resize; }
         .resize-handle.sw { bottom: -6px; left: -6px; cursor: sw-resize; }
         .resize-handle.se { bottom: -6px; right: -6px; cursor: se-resize; }
-        .resize-handle.n { top: -6px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
-        .resize-handle.s { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
-        .resize-handle.e { right: -6px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
-        .resize-handle.w { left: -6px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
 
-        /* Scrollbar styling */
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
+        /* Bottom Controls */
+        .bottom-controls {
+            background: #1e1e1e;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .sidebar::-webkit-scrollbar-track {
+        .instructions {
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff4500 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Utility Bar */
+        .utility-bar {
+            background: #252525;
+            padding: 10px 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .utility-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .utility-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .utility-item label {
+            color: #aaa;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .utility-item input[type="color"] {
+            width: 40px;
+            height: 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
             background: transparent;
         }
 
+        .utility-item input[type="range"] {
+            width: 100px;
+            cursor: pointer;
+            accent-color: #ff6b35;
+        }
+
+        .utility-item input[type="number"] {
+            width: 55px;
+            padding: 5px 8px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background: #333;
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .utility-item select {
+            padding: 6px 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background: #333;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 130px;
+        }
+
+        .utility-item select:focus,
+        .utility-item input[type="number"]:focus {
+            outline: none;
+            border-color: #ff6b35;
+        }
+
+        /* Scrollbar Styling */
+        .sidebar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: #2a2a2a;
+        }
+
         .sidebar::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 3px;
+            background: #ff6b35;
+            border-radius: 4px;
         }
 
         .sidebar::-webkit-scrollbar-thumb:hover {
-            background: var(--text-secondary);
-        }
-
-        /* Instructions tooltip */
-        .instructions {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            pointer-events: none;
-            opacity: 0.8;
-        }
-
-        .instructions span {
-            color: var(--accent);
-            font-weight: 600;
+            background: #ff4500;
         }
 
         /* Responsive */
-        @media (max-width: 900px) {
-            .app-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto 1fr;
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
             }
 
             .sidebar {
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-                max-height: 180px;
+                width: 100%;
+                max-height: 200px;
             }
 
-            .templates-grid {
-                flex-direction: row;
-                overflow-x: auto;
-                padding-bottom: 8px;
+            .templates {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
 
-            .template-item {
-                min-width: 140px;
+            .template-item img {
+                height: 100px;
+            }
+
+            h1 {
+                font-size: 24px;
             }
         }
     </style>
@@ -425,68 +402,94 @@
 <body>
     <div class="app-container">
         <!-- Header with Upload -->
-        <header class="header">
-            <div class="logo">🎭 Meme Generator</div>
-            
+        <div class="header">
+            <h1>🎭 Meme Generator</h1>
             <div class="upload-area" onclick="document.getElementById('imageUpload').click()">
                 <input type="file" id="imageUpload" accept="image/*">
-                <span class="upload-icon">📤</span>
-                <label for="imageUpload" class="upload-label">Upload Your Own Image</label>
+                <label for="imageUpload" class="upload-label">📤 Upload Your Own Image</label>
             </div>
+        </div>
 
-            <div class="header-actions">
-                <button class="btn btn-primary" id="downloadBtn" disabled>
-                    💾 Download Meme
-                </button>
-            </div>
-        </header>
-
-        <!-- Sidebar with Templates -->
-        <aside class="sidebar">
-            <div class="sidebar-title">Meme Templates</div>
-            <div class="templates-grid" id="templatesContainer">
-                <!-- Templates will be added via JavaScript -->
-            </div>
-        </aside>
-
-        <!-- Main Canvas Area -->
-        <main class="main-area">
-            <div class="canvas-wrapper">
-                <div class="meme-container" id="memeContainer">
-                    <canvas id="memeCanvas"></canvas>
-                    <div class="placeholder-message" id="placeholder">
-                        <div class="placeholder-icon">🖼️</div>
-                        <div class="placeholder-text">Select a template or upload an image</div>
-                        <div class="placeholder-hint">Click on the image to add text boxes</div>
-                    </div>
-                    <!-- Text boxes will be added here dynamically -->
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Sidebar for Templates -->
+            <div class="sidebar">
+                <div class="sidebar-title">Meme Templates</div>
+                <div class="templates" id="templatesContainer">
+                    <!-- Templates will be added via JavaScript -->
                 </div>
             </div>
-            <div class="instructions" id="instructions" style="display: none;">
-                <span>Click</span> on the image to add text • <span>Drag</span> to move • <span>Resize</span> from corners
+
+            <!-- Canvas Area -->
+            <div class="canvas-area">
+                <div class="canvas-wrapper">
+                    <div class="canvas-container" id="canvasContainer">
+                        <canvas id="memeCanvas"></canvas>
+                        <div id="textboxesOverlay"></div>
+                    </div>
+                </div>
+                
+                <!-- Utility Bar -->
+                <div class="utility-bar">
+                    <div class="utility-row">
+                        <div class="utility-item">
+                            <label for="fontColorPicker">Font Color:</label>
+                            <input type="color" id="fontColorPicker" value="#ffffff">
+                        </div>
+                        <div class="utility-item">
+                            <label for="fontSizeSlider">Font Size:</label>
+                            <input type="range" id="fontSizeSlider" min="12" max="120" value="32">
+                            <input type="number" id="fontSizeInput" min="12" max="120" value="32">
+                        </div>
+                        <div class="utility-item">
+                            <label for="fontFamilySelect">Font:</label>
+                            <select id="fontFamilySelect">
+                                <option value="Impact, Arial Black, sans-serif">Impact</option>
+                                <option value="Arial Black, sans-serif">Arial Black</option>
+                                <option value="Comic Sans MS, cursive">Comic Sans</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="Times New Roman, serif">Times New Roman</option>
+                                <option value="Courier New, monospace">Courier New</option>
+                                <option value="Verdana, sans-serif">Verdana</option>
+                                <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Controls -->
+                <div class="bottom-controls">
+                    <div class="instructions">
+                        💡 Click on the meme to add text • Drag to move • Resize from corners • Click X to delete
+                    </div>
+                    <button class="download-btn" id="downloadBtn" disabled>Download Meme</button>
+                </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <script>
         // Canvas and context
         const canvas = document.getElementById('memeCanvas');
         const ctx = canvas.getContext('2d');
-        const memeContainer = document.getElementById('memeContainer');
-        const placeholder = document.getElementById('placeholder');
-        const instructions = document.getElementById('instructions');
+        const canvasContainer = document.getElementById('canvasContainer');
+        const textboxesOverlay = document.getElementById('textboxesOverlay');
         
         // State
         let currentImage = null;
+        let textboxes = [];
+        let textboxIdCounter = 0;
         let selectedTemplate = null;
-        let textBoxes = [];
-        let selectedTextBox = null;
-        let isDragging = false;
-        let isResizing = false;
+        let draggedTextbox = null;
+        let resizingTextbox = null;
         let resizeHandle = null;
-        let dragOffset = { x: 0, y: 0 };
-        let startPos = { x: 0, y: 0 };
-        let startSize = { width: 0, height: 0 };
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let selectedTextbox = null;
+        const fontColorPicker = document.getElementById('fontColorPicker');
+        const fontSizeSlider = document.getElementById('fontSizeSlider');
+        const fontSizeInput = document.getElementById('fontSizeInput');
+        const fontFamilySelect = document.getElementById('fontFamilySelect');
 
         // Popular meme templates
         const memeTemplates = [
@@ -516,7 +519,7 @@
                 const templateItem = document.createElement('div');
                 templateItem.className = 'template-item';
                 templateItem.innerHTML = `
-                    <img src="${template.url}" alt="${template.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect fill=%22%231a1a25%22 width=%22150%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%238888a0%22%3ETemplate%3C/text%3E%3C/svg%3E'">
+                    <img src="${template.url}" alt="${template.name}" loading="lazy" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22150%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%23999%22%3ETemplate%3C/text%3E%3C/svg%3E'">
                     <div class="template-label">${template.name}</div>
                 `;
                 templateItem.addEventListener('click', () => selectTemplate(template.url, templateItem));
@@ -526,10 +529,12 @@
 
         // Select template
         function selectTemplate(url, element) {
+            // Remove previous selection
             document.querySelectorAll('.template-item').forEach(item => {
                 item.classList.remove('selected');
             });
             
+            // Mark as selected
             if (element) {
                 element.classList.add('selected');
             }
@@ -545,37 +550,36 @@
             
             img.onload = function() {
                 currentImage = img;
+                // Clear existing textboxes
+                textboxes = [];
+                renderTextboxes();
                 
-                // Calculate canvas size while maintaining aspect ratio
-                const maxWidth = Math.min(800, window.innerWidth - 340);
-                const maxHeight = window.innerHeight - 200;
+                // Set canvas size to match image
+                canvas.width = img.width;
+                canvas.height = img.height;
                 
-                let width = img.width;
-                let height = img.height;
+                // Limit canvas size for display
+                const maxWidth = 900;
+                const maxHeight = 700;
+                let displayWidth = img.width;
+                let displayHeight = img.height;
                 
-                if (width > maxWidth) {
-                    height = (maxWidth / width) * height;
-                    width = maxWidth;
+                if (displayWidth > maxWidth) {
+                    const ratio = maxWidth / displayWidth;
+                    displayWidth = maxWidth;
+                    displayHeight = displayHeight * ratio;
                 }
-                if (height > maxHeight) {
-                    width = (maxHeight / height) * width;
-                    height = maxHeight;
+                
+                if (displayHeight > maxHeight) {
+                    const ratio = maxHeight / displayHeight;
+                    displayHeight = maxHeight;
+                    displayWidth = displayWidth * ratio;
                 }
                 
-                canvas.width = width;
-                canvas.height = height;
+                canvas.style.width = displayWidth + 'px';
+                canvas.style.height = displayHeight + 'px';
                 
-                // Draw image
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                // Show canvas, hide placeholder
-                canvas.style.display = 'block';
-                placeholder.style.display = 'none';
-                instructions.style.display = 'block';
-                
-                // Clear existing text boxes
-                clearTextBoxes();
-                
+                renderMeme();
                 document.getElementById('downloadBtn').disabled = false;
             };
             
@@ -594,312 +598,210 @@
             }
         }
 
-        // Clear all text boxes
-        function clearTextBoxes() {
-            textBoxes.forEach(box => box.element.remove());
-            textBoxes = [];
-            selectedTextBox = null;
+        // Render meme on canvas (just the image)
+        function renderMeme() {
+            if (!currentImage) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
         }
 
-        // Create a text box
-        function createTextBox(x, y) {
-            const box = document.createElement('div');
-            box.className = 'text-box';
-            box.style.left = (x - 75) + 'px';
-            box.style.top = (y - 25) + 'px';
-            box.style.width = '150px';
-            box.style.height = '50px';
-
-            const input = document.createElement('textarea');
-            input.className = 'text-box-input';
-            input.placeholder = 'TYPE HERE';
-            input.rows = 1;
-
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'text-box-delete';
-            deleteBtn.innerHTML = '✕';
-            deleteBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                removeTextBox(boxData);
-            });
-
-            // Resize handles
-            const handles = ['nw', 'ne', 'sw', 'se', 'n', 's', 'e', 'w'];
-            handles.forEach(pos => {
-                const handle = document.createElement('div');
-                handle.className = `resize-handle ${pos}`;
-                handle.dataset.handle = pos;
-                box.appendChild(handle);
-            });
-
-            box.appendChild(input);
-            box.appendChild(deleteBtn);
-            memeContainer.appendChild(box);
-
-            const boxData = {
-                element: box,
-                input: input,
-                x: x - 75,
-                y: y - 25,
-                width: 150,
-                height: 50
+        // Create a new textbox
+        function createTextbox(x, y) {
+            const id = textboxIdCounter++;
+            const canvasRect = canvas.getBoundingClientRect();
+            
+            const textbox = {
+                id: id,
+                x: x,
+                y: y,
+                width: 200,
+                height: 60,
+                text: 'Text',
+                color: fontColorPicker.value,
+                fontSize: parseInt(fontSizeSlider.value),
+                fontFamily: fontFamilySelect.value
             };
-
-            textBoxes.push(boxData);
-
-            // Event listeners for the text box
-            box.addEventListener('mousedown', (e) => handleTextBoxMouseDown(e, boxData));
-            input.addEventListener('mousedown', (e) => e.stopPropagation());
-            input.addEventListener('input', () => autoResizeInput(boxData));
-
-            // Select this text box
-            selectTextBox(boxData);
-            input.focus();
-
-            return boxData;
-        }
-
-        // Auto-resize input based on content
-        function autoResizeInput(boxData) {
-            const input = boxData.input;
-            input.style.height = 'auto';
-            input.style.height = Math.max(40, input.scrollHeight) + 'px';
-        }
-
-        // Select a text box
-        function selectTextBox(boxData) {
-            // Deselect previous
-            textBoxes.forEach(b => b.element.classList.remove('selected'));
+            selectedTextbox = textbox;
             
-            selectedTextBox = boxData;
-            if (boxData) {
-                boxData.element.classList.add('selected');
-            }
+            textboxes.push(textbox);
+            renderTextboxes();
         }
 
-        // Remove a text box
-        function removeTextBox(boxData) {
-            boxData.element.remove();
-            textBoxes = textBoxes.filter(b => b !== boxData);
-            if (selectedTextBox === boxData) {
-                selectedTextBox = null;
-            }
-        }
-
-        // Handle mouse down on text box
-        function handleTextBoxMouseDown(e, boxData) {
-            e.preventDefault();
-            selectTextBox(boxData);
-
-            const target = e.target;
-            const rect = boxData.element.getBoundingClientRect();
-            const containerRect = memeContainer.getBoundingClientRect();
-
-            if (target.classList.contains('resize-handle')) {
-                // Start resizing
-                isResizing = true;
-                resizeHandle = target.dataset.handle;
-                startPos = { x: e.clientX, y: e.clientY };
-                startSize = { 
-                    width: boxData.width, 
-                    height: boxData.height,
-                    x: boxData.x,
-                    y: boxData.y
-                };
-            } else if (!target.classList.contains('text-box-input')) {
-                // Start dragging
-                isDragging = true;
-                dragOffset = {
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top
-                };
-            }
-        }
-
-        // Handle mouse move
-        function handleMouseMove(e) {
-            if (!selectedTextBox) return;
-
-            const containerRect = memeContainer.getBoundingClientRect();
-
-            if (isDragging) {
-                let newX = e.clientX - containerRect.left - dragOffset.x;
-                let newY = e.clientY - containerRect.top - dragOffset.y;
-
-                // Constrain to container
-                newX = Math.max(0, Math.min(newX, containerRect.width - selectedTextBox.width));
-                newY = Math.max(0, Math.min(newY, containerRect.height - selectedTextBox.height));
-
-                selectedTextBox.x = newX;
-                selectedTextBox.y = newY;
-                selectedTextBox.element.style.left = newX + 'px';
-                selectedTextBox.element.style.top = newY + 'px';
-            }
-
-            if (isResizing) {
-                const dx = e.clientX - startPos.x;
-                const dy = e.clientY - startPos.y;
-
-                let newWidth = startSize.width;
-                let newHeight = startSize.height;
-                let newX = startSize.x;
-                let newY = startSize.y;
-
-                switch (resizeHandle) {
-                    case 'se':
-                        newWidth = Math.max(80, startSize.width + dx);
-                        newHeight = Math.max(40, startSize.height + dy);
-                        break;
-                    case 'sw':
-                        newWidth = Math.max(80, startSize.width - dx);
-                        newHeight = Math.max(40, startSize.height + dy);
-                        newX = startSize.x + startSize.width - newWidth;
-                        break;
-                    case 'ne':
-                        newWidth = Math.max(80, startSize.width + dx);
-                        newHeight = Math.max(40, startSize.height - dy);
-                        newY = startSize.y + startSize.height - newHeight;
-                        break;
-                    case 'nw':
-                        newWidth = Math.max(80, startSize.width - dx);
-                        newHeight = Math.max(40, startSize.height - dy);
-                        newX = startSize.x + startSize.width - newWidth;
-                        newY = startSize.y + startSize.height - newHeight;
-                        break;
-                    case 'n':
-                        newHeight = Math.max(40, startSize.height - dy);
-                        newY = startSize.y + startSize.height - newHeight;
-                        break;
-                    case 's':
-                        newHeight = Math.max(40, startSize.height + dy);
-                        break;
-                    case 'e':
-                        newWidth = Math.max(80, startSize.width + dx);
-                        break;
-                    case 'w':
-                        newWidth = Math.max(80, startSize.width - dx);
-                        newX = startSize.x + startSize.width - newWidth;
-                        break;
-                }
-
-                // Constrain to container
-                newX = Math.max(0, newX);
-                newY = Math.max(0, newY);
-                if (newX + newWidth > containerRect.width) {
-                    newWidth = containerRect.width - newX;
-                }
-                if (newY + newHeight > containerRect.height) {
-                    newHeight = containerRect.height - newY;
-                }
-
-                selectedTextBox.x = newX;
-                selectedTextBox.y = newY;
-                selectedTextBox.width = newWidth;
-                selectedTextBox.height = newHeight;
-
-                selectedTextBox.element.style.left = newX + 'px';
-                selectedTextBox.element.style.top = newY + 'px';
-                selectedTextBox.element.style.width = newWidth + 'px';
-                selectedTextBox.element.style.height = newHeight + 'px';
-            }
-        }
-
-        // Handle mouse up
-        function handleMouseUp() {
-            isDragging = false;
-            isResizing = false;
-            resizeHandle = null;
-        }
-
-        // Handle click on canvas to create text box
-        function handleCanvasClick(e) {
-            if (isDragging || isResizing) return;
+        // Render all textboxes as overlay elements
+        function renderTextboxes() {
+            textboxesOverlay.innerHTML = '';
             
-            // Don't create if clicking on existing text box
-            if (e.target.closest('.text-box')) return;
-
-            const rect = memeContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            // Only create if clicking on the canvas area
-            if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
-                createTextBox(x, y);
-            }
-        }
-
-        // Render final meme for download
-        function renderFinalMeme() {
-            const downloadCanvas = document.createElement('canvas');
-            const downloadCtx = downloadCanvas.getContext('2d');
-            
-            // Use original image dimensions for better quality
-            downloadCanvas.width = currentImage.width;
-            downloadCanvas.height = currentImage.height;
-            
-            // Scale factor
-            const scaleX = currentImage.width / canvas.width;
-            const scaleY = currentImage.height / canvas.height;
-
-            // Draw original image
-            downloadCtx.drawImage(currentImage, 0, 0);
-
-            // Draw each text box
-            textBoxes.forEach(boxData => {
-                const text = boxData.input.value.toUpperCase();
-                if (!text) return;
-
-                // Calculate scaled position and size
-                const scaledX = boxData.x * scaleX;
-                const scaledY = boxData.y * scaleY;
-                const scaledWidth = boxData.width * scaleX;
-                const scaledHeight = boxData.height * scaleY;
-
-                // Calculate font size based on box height
-                const fontSize = Math.min(scaledHeight * 0.7, scaledWidth / text.length * 1.8);
-
-                downloadCtx.fillStyle = 'white';
-                downloadCtx.strokeStyle = 'black';
-                downloadCtx.lineWidth = Math.max(3, fontSize / 15);
-                downloadCtx.lineJoin = 'round';
-                downloadCtx.textAlign = 'center';
-                downloadCtx.textBaseline = 'middle';
-                downloadCtx.font = `bold ${fontSize}px Impact, Arial Black, sans-serif`;
-
-                // Word wrap
-                const words = text.split(' ');
-                const lines = [];
-                let currentLine = '';
+            textboxes.forEach(textbox => {
+                const element = document.createElement('div');
+                element.className = 'textbox';
+                element.dataset.id = textbox.id;
+                element.style.left = textbox.x + 'px';
+                element.style.top = textbox.y + 'px';
+                element.style.width = textbox.width + 'px';
+                element.style.height = textbox.height + 'px';
                 
-                words.forEach(word => {
-                    const testLine = currentLine ? currentLine + ' ' + word : word;
-                    const metrics = downloadCtx.measureText(testLine);
-                    if (metrics.width > scaledWidth - 20 && currentLine) {
-                        lines.push(currentLine);
-                        currentLine = word;
-                    } else {
-                        currentLine = testLine;
+                const input = document.createElement('textarea');
+                input.className = 'textbox-input';
+                input.value = textbox.text;
+                input.style.color = textbox.color || '#ffffff';
+                input.style.fontSize = (textbox.fontSize || 32) + 'px';
+                input.style.fontFamily = textbox.fontFamily || 'Impact, Arial Black, sans-serif';
+                input.addEventListener('input', (e) => {
+                    textbox.text = e.target.value;
+                });
+                input.addEventListener('mousedown', (e) => {
+                    e.stopPropagation();
+                });
+                input.addEventListener('focus', () => {
+                    selectedTextbox = textbox;
+                    fontColorPicker.value = textbox.color || '#ffffff';
+                    fontSizeSlider.value = textbox.fontSize || 32;
+                    fontSizeInput.value = textbox.fontSize || 32;
+                    fontFamilySelect.value = textbox.fontFamily || 'Impact, Arial Black, sans-serif';
+                });
+                
+                const closeBtn = document.createElement('div');
+                closeBtn.className = 'textbox-close';
+                closeBtn.innerHTML = '×';
+                closeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    deleteTextbox(textbox.id);
+                });
+                
+                // Resize handles
+                const handles = ['nw', 'ne', 'sw', 'se'];
+                handles.forEach(pos => {
+                    const handle = document.createElement('div');
+                    handle.className = `resize-handle ${pos}`;
+                    handle.dataset.position = pos;
+                    handle.addEventListener('mousedown', (e) => {
+                        e.stopPropagation();
+                        startResize(e, textbox, pos);
+                    });
+                    element.appendChild(handle);
+                });
+                
+                element.appendChild(input);
+                element.appendChild(closeBtn);
+                
+                // Make draggable
+                element.addEventListener('mousedown', (e) => {
+                    if (e.target === element || e.target === input) {
+                        startDrag(e, textbox);
                     }
                 });
-                lines.push(currentLine);
-
-                // Draw text
-                const lineHeight = fontSize * 1.1;
-                const totalHeight = lines.length * lineHeight;
-                const startY = scaledY + (scaledHeight - totalHeight) / 2 + lineHeight / 2;
-
-                lines.forEach((line, i) => {
-                    const textX = scaledX + scaledWidth / 2;
-                    const textY = startY + i * lineHeight;
-                    downloadCtx.strokeText(line, textX, textY);
-                    downloadCtx.fillText(line, textX, textY);
-                });
+                
+                textboxesOverlay.appendChild(element);
             });
-
-            return downloadCanvas;
         }
 
-        // Event listeners
+        // Delete textbox
+        function deleteTextbox(id) {
+            textboxes = textboxes.filter(tb => tb.id !== id);
+            renderTextboxes();
+        }
+
+        // Start dragging
+        function startDrag(e, textbox) {
+            draggedTextbox = textbox;
+            const element = document.querySelector(`[data-id="${textbox.id}"]`);
+            dragStartX = e.clientX - textbox.x;
+            dragStartY = e.clientY - textbox.y;
+            
+            document.querySelectorAll('.textbox').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // Start resizing
+        function startResize(e, textbox, position) {
+            resizingTextbox = textbox;
+            resizeHandle = position;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+        }
+
+        // Mouse move handler
+        document.addEventListener('mousemove', (e) => {
+            if (draggedTextbox) {
+                const canvasRect = canvas.getBoundingClientRect();
+                let newX = e.clientX - dragStartX;
+                let newY = e.clientY - dragStartY;
+                
+                // Keep within canvas bounds
+                newX = Math.max(0, Math.min(newX, canvasRect.width - draggedTextbox.width));
+                newY = Math.max(0, Math.min(newY, canvasRect.height - draggedTextbox.height));
+                
+                draggedTextbox.x = newX;
+                draggedTextbox.y = newY;
+                
+                const element = document.querySelector(`[data-id="${draggedTextbox.id}"]`);
+                element.style.left = newX + 'px';
+                element.style.top = newY + 'px';
+            }
+            
+            if (resizingTextbox) {
+                const deltaX = e.clientX - dragStartX;
+                const deltaY = e.clientY - dragStartY;
+                
+                const minWidth = 100;
+                const minHeight = 40;
+                
+                if (resizeHandle === 'se') {
+                    resizingTextbox.width = Math.max(minWidth, resizingTextbox.width + deltaX);
+                    resizingTextbox.height = Math.max(minHeight, resizingTextbox.height + deltaY);
+                } else if (resizeHandle === 'sw') {
+                    const newWidth = Math.max(minWidth, resizingTextbox.width - deltaX);
+                    const widthDiff = resizingTextbox.width - newWidth;
+                    resizingTextbox.x += widthDiff;
+                    resizingTextbox.width = newWidth;
+                    resizingTextbox.height = Math.max(minHeight, resizingTextbox.height + deltaY);
+                } else if (resizeHandle === 'ne') {
+                    resizingTextbox.width = Math.max(minWidth, resizingTextbox.width + deltaX);
+                    const newHeight = Math.max(minHeight, resizingTextbox.height - deltaY);
+                    const heightDiff = resizingTextbox.height - newHeight;
+                    resizingTextbox.y += heightDiff;
+                    resizingTextbox.height = newHeight;
+                } else if (resizeHandle === 'nw') {
+                    const newWidth = Math.max(minWidth, resizingTextbox.width - deltaX);
+                    const newHeight = Math.max(minHeight, resizingTextbox.height - deltaY);
+                    const widthDiff = resizingTextbox.width - newWidth;
+                    const heightDiff = resizingTextbox.height - newHeight;
+                    resizingTextbox.x += widthDiff;
+                    resizingTextbox.y += heightDiff;
+                    resizingTextbox.width = newWidth;
+                    resizingTextbox.height = newHeight;
+                }
+                
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                
+                const element = document.querySelector(`[data-id="${resizingTextbox.id}"]`);
+                element.style.left = resizingTextbox.x + 'px';
+                element.style.top = resizingTextbox.y + 'px';
+                element.style.width = resizingTextbox.width + 'px';
+                element.style.height = resizingTextbox.height + 'px';
+            }
+        });
+
+        // Mouse up handler
+        document.addEventListener('mouseup', () => {
+            draggedTextbox = null;
+            resizingTextbox = null;
+            resizeHandle = null;
+        });
+
+        // Canvas click to add textbox
+        canvas.addEventListener('click', (e) => {
+            if (!currentImage) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            createTextbox(x, y);
+        });
+
+        // Image upload
         document.getElementById('imageUpload').addEventListener('change', function(e) {
             if (e.target.files && e.target.files[0]) {
                 document.querySelectorAll('.template-item').forEach(item => {
@@ -910,26 +812,54 @@
             }
         });
 
-        memeContainer.addEventListener('click', handleCanvasClick);
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-
-        // Deselect when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.text-box') && !e.target.closest('.meme-container')) {
-                selectTextBox(null);
-            }
-        });
-
+        // Download button
         document.getElementById('downloadBtn').addEventListener('click', function() {
             if (!currentImage) {
                 alert('Please select an image first!');
                 return;
             }
 
-            const finalCanvas = renderFinalMeme();
+            // Create a temporary canvas for download
+            const downloadCanvas = document.createElement('canvas');
+            const downloadCtx = downloadCanvas.getContext('2d');
+            
+            downloadCanvas.width = currentImage.width;
+            downloadCanvas.height = currentImage.height;
+            
+            // Draw image
+            downloadCtx.drawImage(currentImage, 0, 0);
+            
+            // Calculate scale factor
+            const scaleX = canvas.width / canvas.getBoundingClientRect().width;
+            const scaleY = canvas.height / canvas.getBoundingClientRect().height;
+            
+            // Draw textboxes
+            textboxes.forEach(textbox => {
+                const scaledX = textbox.x * scaleX;
+                const scaledY = textbox.y * scaleY;
+                const scaledWidth = textbox.width * scaleX;
+                const scaledHeight = textbox.height * scaleY;
+                
+                // Calculate font size based on textbox height
+                const fontSize = scaledHeight * 0.6;
+                
+                downloadCtx.fillStyle = '#FFFFFF';
+                downloadCtx.strokeStyle = '#000000';
+                downloadCtx.lineWidth = Math.max(2, fontSize / 15);
+                downloadCtx.lineJoin = 'round';
+                downloadCtx.textAlign = 'center';
+                downloadCtx.textBaseline = 'middle';
+                downloadCtx.font = `bold ${fontSize}px Impact, Arial Black, sans-serif`;
+                
+                const textX = scaledX + scaledWidth / 2;
+                const textY = scaledY + scaledHeight / 2;
+                
+                downloadCtx.strokeText(textbox.text, textX, textY);
+                downloadCtx.fillText(textbox.text, textX, textY);
+            });
 
-            finalCanvas.toBlob(function(blob) {
+            // Download
+            downloadCanvas.toBlob(function(blob) {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -941,21 +871,46 @@
             });
         });
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Delete' && selectedTextBox && document.activeElement !== selectedTextBox.input) {
-                removeTextBox(selectedTextBox);
+        // Font color picker event
+        fontColorPicker.addEventListener('input', (e) => {
+            if (selectedTextbox) {
+                selectedTextbox.color = e.target.value;
+                renderTextboxes();
             }
-            if (e.key === 'Escape') {
-                selectTextBox(null);
+        });
+
+        // Font size slider event
+        fontSizeSlider.addEventListener('input', (e) => {
+            const size = parseInt(e.target.value);
+            fontSizeInput.value = size;
+            if (selectedTextbox) {
+                selectedTextbox.fontSize = size;
+                renderTextboxes();
+            }
+        });
+
+        // Font size input event
+        fontSizeInput.addEventListener('input', (e) => {
+            let size = parseInt(e.target.value);
+            if (isNaN(size)) size = 32;
+            size = Math.max(12, Math.min(120, size));
+            fontSizeSlider.value = size;
+            if (selectedTextbox) {
+                selectedTextbox.fontSize = size;
+                renderTextboxes();
+            }
+        });
+
+        // Font family select event
+        fontFamilySelect.addEventListener('change', (e) => {
+            if (selectedTextbox) {
+                selectedTextbox.fontFamily = e.target.value;
+                renderTextboxes();
             }
         });
 
         // Initialize
         initTemplates();
-        
-        // Hide canvas initially
-        canvas.style.display = 'none';
     </script>
 </body>
 </html>
