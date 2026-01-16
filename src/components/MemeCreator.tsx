@@ -259,7 +259,7 @@ export default function MemeCreator({ userId, userEmail, onMemePosted }: MemeCre
         const minWidth = 100;
         const minHeight = 40;
 
-        let updates: Partial<Textbox> = {};
+        const updates: Partial<Textbox> = {};
 
         if (resizeHandle === "se") {
           updates.width = Math.max(minWidth, resizingTextbox.width + deltaX);
